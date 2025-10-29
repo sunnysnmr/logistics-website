@@ -33,6 +33,23 @@ export default function Home() {
             </a>{" "}
             center.
           </p>
+
+          {/* Tailwind example card */}
+          <div className="w-full max-w-md rounded-xl bg-gradient-to-r from-indigo-600 via-sky-500 to-emerald-400 p-6 text-white shadow-lg">
+            <h2 className="text-2xl font-bold">Tailwind example</h2>
+            <p className="mt-2 text-sm opacity-90">
+              This is a small example card styled with Tailwind classes. Use
+              utilities like spacing, colors, gradients, and rounded corners.
+            </p>
+            <div className="mt-4 flex gap-3">
+              <button className="rounded-md bg-white/20 px-4 py-2 text-sm font-semibold backdrop-blur-sm hover:bg-white/30">
+                Action
+              </button>
+              <button className="rounded-md bg-white px-4 py-2 text-sm font-semibold text-indigo-700 hover:brightness-95">
+                Primary
+              </button>
+            </div>
+          </div>
         </div>
         <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
           <a
