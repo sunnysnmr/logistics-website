@@ -63,7 +63,7 @@ export default function Home() {
                 <Link href="/quote" className="inline-flex items-center justify-center px-5 md:px-6 py-2.5 md:py-3 rounded-xl font-bold text-white text-sm md:text-base bg-red-600 hover:bg-red-700 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105">
                   Get a Quote
                 </Link>
-                <Link href="/tracking" className="inline-flex items-center justify-center px-5 md:px-6 py-2.5 md:py-3 rounded-xl font-bold text-white text-sm md:text-base border-2 border-white hover:bg-white hover:text-primary-700 transition-all duration-300">
+                <Link href="/tracking" className="inline-flex items-center justify-center px-5 md:px-6 py-2.5 md:py-3 rounded-xl font-bold text-white text-sm md:text-base border-2 border-white hover:bg-gray-800 hover:text-primary-700 transition-all duration-300">
                   Track Shipment
                 </Link>
                 <Link href="/services" className="inline-flex items-center justify-center px-5 md:px-6 py-2.5 md:py-3 rounded-xl font-bold text-slate-900 text-sm md:text-base bg-white hover:bg-slate-100 transition-all duration-300 shadow-lg hover:shadow-xl">
