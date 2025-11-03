@@ -52,24 +52,24 @@ export default function Header() {
         }`}
       >
         <nav className="site-container mx-auto px-3 md:px-4">
-          <div className="flex items-center justify-between h-14 md:h-16">
+          <div className="flex items-center justify-between h-20 md:h-24">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-1.5 md:gap-2 group flex-shrink-0">
-              <div className="relative w-9 h-9 md:w-10 md:h-10 rounded-lg overflow-hidden bg-white ring-2 ring-primary-100 group-hover:ring-primary-300 transition-all">
+            <Link href="/" className="flex items-center gap-2 md:gap-3 group flex-shrink-0">
+              <div className="relative w-32 h-28 md:w-36 md:h-28 overflow-hidden">
                 <Image
                   src="/ogl_logo.png"
-                  alt="onGlobe Console"
+                  alt="OneGlobe Console logo"
                   fill
-                  sizes="48px"
-                  className="object-contain p-1.5"
+                  sizes="(max-width: 768px) 128px, 144px"
+                  className="object-contain p-1"
                   priority
                 />
               </div>
               <div className="hidden sm:block">
-                <div className="text-sm md:text-base font-bold text-slate-900 leading-tight">
-                  onGlobe Console
+                <div className="text-base md:text-lg font-bold text-slate-900 leading-tight">
+                  OneGlobe Console
                 </div>
-                <div className="text-[9px] md:text-[10px] text-slate-500 leading-tight">
+                <div className="text-[10px] md:text-xs text-slate-500 leading-tight">
                   Logistics & Supply Chain
                 </div>
               </div>
@@ -89,7 +89,7 @@ export default function Header() {
               >
                 <button className="nav-link px-2.5 xl:px-3 py-2 text-xs xl:text-sm font-medium flex items-center gap-1.5 whitespace-nowrap">
                   Services
-                  <ChevronDown className="w-4 h-4 transition-transform text-slate-700" />
+                  <ChevronDown className="w-4 h-4 ml-1 transition-transform text-slate-700" />
                 </button>
                 {servicesOpen && (
                   <div className="absolute top-full left-0 pt-2 w-60 z-50">
@@ -117,7 +117,7 @@ export default function Header() {
               >
                 <button className="nav-link px-2.5 xl:px-3 py-2 text-xs xl:text-sm font-medium flex items-center gap-1.5 whitespace-nowrap">
                   Industries
-                  <ChevronDown className="w-4 h-4 transition-transform text-slate-700" />
+                  <ChevronDown className="w-4 h-4 ml-1 transition-transform text-slate-700" />
                 </button>
                 {industriesOpen && (
                   <div className="absolute top-full left-0 pt-2 w-60 z-50">
@@ -165,111 +165,165 @@ export default function Header() {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 text-slate-700 hover:text-primary-600 hover:bg-slate-50 rounded-lg transition-colors"
+                className="lg:hidden flex items-center justify-center w-10 h-10 text-slate-700 hover:text-primary-600 transition-colors"
                 aria-label="Toggle menu"
               >
                 {mobileMenuOpen ? (
-                  <X className="w-6 h-6" />
+                  <X className="w-7 h-7" />
                 ) : (
-                  <Menu className="w-6 h-6" />
+                  <Menu className="w-7 h-7" />
                 )}
               </button>
             </div>
           </div>
 
           {/* Mobile Menu */}
-          {mobileMenuOpen && (
-            <div className="lg:hidden py-4 border-t border-slate-100 animate-fade-in">
-              <div className="space-y-1">
-                <Link href="/" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+          <div className={`lg:hidden fixed inset-0 z-40 bg-white transition-all duration-300 ${
+            mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          }`}>
+            <div className={`w-full h-screen pt-4 transform transition-transform duration-200 ${
+              mobileMenuOpen ? "translate-y-0" : "-translate-y-1"
+            }`}>
+              {/* Mobile Menu Header */}
+              <div className="flex items-center justify-between px-4 mb-4 pb-4 border-b border-slate-200">
+                <div className="relative w-24 h-20">
+                  <Image
+                    src="/ogl_logo.png"
+                    alt="OneGlobe Console logo"
+                    fill
+                    sizes="96px"
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+
+                <div className="flex items-center gap-3">
+                  {/* Language selector (visible in mobile menu) */}
+                  <div className="flex items-center gap-0.5 border border-slate-200 rounded-lg px-1.5 py-1 text-xs bg-white">
+                    <button className="text-[10px] font-medium text-primary-600 px-1.5 py-0.5 rounded">EN</button>
+                    <span className="text-slate-300 text-xs">|</span>
+                    <button className="text-[10px] font-medium text-slate-600 px-1.5 py-0.5 rounded">MS</button>
+                  </div>
+
+                  <button
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="p-2"
+                  >
+                    <X className="w-6 h-6 text-slate-600" />
+                  </button>
+                </div>
+              </div>
+              <div className="w-full max-w-md mx-auto px-4 py-4 space-y-2 text-center">
+                <Link 
+                  href="/" 
+                  className="block text-center text-lg font-medium text-slate-900 hover:text-primary-600 transition-colors" 
+                  onClick={() => setMobileMenuOpen(false)}
+                >
                   Home
                 </Link>
-                
+              
                 {/* Mobile Services */}
-                <div>
+                <div className="w-full text-center">
                   <button
                     onClick={() => setServicesOpen(!servicesOpen)}
-                    className="mobile-nav-link w-full flex items-center justify-between"
+                    className="inline-flex items-center gap-2 text-lg font-medium text-slate-900 hover:text-primary-600 transition-colors"
                   >
                     <span>Services</span>
-                    <ChevronDown className={`w-4 h-4 transition-transform ${servicesOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`} />
                   </button>
-                  {servicesOpen && (
-                    <div className="ml-4 mt-1 space-y-1">
-                      <Link href="/air-freight" className="mobile-nav-link text-sm" onClick={() => setMobileMenuOpen(false)}>
+                  <div className={`overflow-hidden transition-all duration-200 ${
+                    servicesOpen ? "max-h-96 opacity-100 mt-2" : "max-h-0 opacity-0"
+                  }`}>
+                    <div className="space-y-3">
+                      <Link href="/air-freight" className="block text-base text-slate-700 hover:text-primary-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                         Air Freight
                       </Link>
-                      <Link href="/sea-freight" className="mobile-nav-link text-sm" onClick={() => setMobileMenuOpen(false)}>
+                      <Link href="/sea-freight" className="block text-base text-slate-700 hover:text-primary-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                         Sea Freight
                       </Link>
-                      <Link href="/project-cargo" className="mobile-nav-link text-sm" onClick={() => setMobileMenuOpen(false)}>
+                      <Link href="/project-cargo" className="block text-base text-slate-700 hover:text-primary-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                         Project Cargo
                       </Link>
-                      <Link href="/warehousing" className="mobile-nav-link text-sm" onClick={() => setMobileMenuOpen(false)}>
+                      <Link href="/warehousing" className="block text-base text-slate-700 hover:text-primary-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                         Warehousing
                       </Link>
-                      <Link href="/customs-clearance" className="mobile-nav-link text-sm" onClick={() => setMobileMenuOpen(false)}>
+                      <Link href="/customs-clearance" className="block text-base text-slate-700 hover:text-primary-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                         Customs Clearance
                       </Link>
-                      <Link href="/supply-chain" className="mobile-nav-link text-sm" onClick={() => setMobileMenuOpen(false)}>
+                      <Link href="/supply-chain" className="block text-base text-slate-700 hover:text-primary-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                         Supply Chain Solutions
                       </Link>
                     </div>
-                  )}
+                  </div>
                 </div>
 
-                <Link href="/solutions" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                <Link 
+                  href="/solutions" 
+                  className="block text-center text-lg font-medium text-slate-900 hover:text-primary-600 transition-colors" 
+                  onClick={() => setMobileMenuOpen(false)}
+                >
                   Solutions
                 </Link>
 
                 {/* Mobile Industries */}
-                <div>
+                <div className="w-full text-center">
                   <button
                     onClick={() => setIndustriesOpen(!industriesOpen)}
-                    className="mobile-nav-link w-full flex items-center justify-between"
+                    className="inline-flex items-center gap-2 text-lg font-medium text-slate-900 hover:text-primary-600 transition-colors"
                   >
                     <span>Industries</span>
-                    <ChevronDown className={`w-4 h-4 transition-transform ${industriesOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${industriesOpen ? "rotate-180" : ""}`} />
                   </button>
-                  {industriesOpen && (
-                    <div className="ml-4 mt-1 space-y-1">
-                      <Link href="/industries/manufacturing" className="mobile-nav-link text-sm" onClick={() => setMobileMenuOpen(false)}>
+                  <div className={`overflow-hidden transition-all duration-200 ${
+                    industriesOpen ? "max-h-96 opacity-100 mt-2" : "max-h-0 opacity-0"
+                  }`}>
+                    <div className="space-y-3">
+                      <Link href="/industries/manufacturing" className="block text-base text-slate-700 hover:text-primary-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                         Manufacturing
                       </Link>
-                      <Link href="/industries/retail" className="mobile-nav-link text-sm" onClick={() => setMobileMenuOpen(false)}>
+                      <Link href="/industries/retail" className="block text-base text-slate-700 hover:text-primary-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                         Retail & E-commerce
                       </Link>
-                      <Link href="/industries/automotive" className="mobile-nav-link text-sm" onClick={() => setMobileMenuOpen(false)}>
+                      <Link href="/industries/automotive" className="block text-base text-slate-700 hover:text-primary-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                         Automotive
                       </Link>
-                      <Link href="/industries/healthcare" className="mobile-nav-link text-sm" onClick={() => setMobileMenuOpen(false)}>
+                      <Link href="/industries/healthcare" className="block text-base text-slate-700 hover:text-primary-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                         Healthcare
                       </Link>
-                      <Link href="/industries/technology" className="mobile-nav-link text-sm" onClick={() => setMobileMenuOpen(false)}>
+                      <Link href="/industries/technology" className="block text-base text-slate-700 hover:text-primary-600 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                         Technology
                       </Link>
                     </div>
-                  )}
+                  </div>
                 </div>
 
-                <Link href="/about" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                <Link 
+                  href="/about" 
+                  className="block text-center text-lg font-medium text-slate-900 hover:text-primary-600 transition-colors" 
+                  onClick={() => setMobileMenuOpen(false)}
+                >
                   About Us
                 </Link>
-                <Link href="/contact" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+
+                <Link 
+                  href="/contact" 
+                  className="block text-center text-lg font-medium text-slate-900 hover:text-primary-600 transition-colors" 
+                  onClick={() => setMobileMenuOpen(false)}
+                >
                   Contact
                 </Link>
 
                 {/* Mobile Quote Button */}
                 <Link
                   href="/quote"
-                  className="block w-full mt-4 px-4 py-3 text-sm font-bold text-center text-white bg-gradient-to-r from-red-600 to-red-700 rounded-lg hover:from-red-700 hover:to-red-800 transition-all"
+                  className="inline-block px-8 py-3 mt-6 text-base font-bold text-white bg-gradient-to-r from-red-600 to-red-700 rounded-lg hover:from-red-700 hover:to-red-800 active:from-red-800 active:to-red-900 transition-all shadow-md hover:shadow-lg mx-auto"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Get a Quote
                 </Link>
               </div>
             </div>
-          )}
+          </div>
         </nav>
       </header>
     </>

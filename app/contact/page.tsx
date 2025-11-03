@@ -1,8 +1,62 @@
 ﻿"use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Clock, Send, ArrowRight, Facebook, Linkedin, Instagram } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Mail, Phone, MapPin, Clock, Send, ArrowRight, Facebook, Linkedin, Instagram, ChevronDown } from "lucide-react";
+
+const faqs = [
+  { q: "How do I track my shipment?", a: "Use our online tracking system with your tracking number for real-time updates." },
+  { q: "What are your shipping rates?", a: "Contact us for a custom quote based on your specific requirements." },
+  { q: "Do you offer insurance?", a: "Yes, we provide comprehensive cargo insurance for all shipments." },
+  { q: "What documents do I need?", a: "Required documents vary by service. Our team will guide you through the process." },
+  { q: "How long does customs clearance take?", a: "Typically 1-3 business days, depending on cargo type and compliance." },
+  { q: "Do you handle dangerous goods?", a: "Yes, we're certified to handle DG cargo following IATA and IMDG regulations." },
+];
+
+function FAQGrid() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const toggle = (i: number) => setOpenIndex(openIndex === i ? null : i);
+
+  return (
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 max-w-5xl mx-auto">
+      {faqs.map((faq, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: index * 0.06 }}
+          className="bg-white rounded-xl p-5 hover:shadow-lg transition-all overflow-hidden"
+        >
+          <button
+            onClick={() => toggle(index)}
+            className="w-full flex items-center justify-between text-left"
+            aria-expanded={openIndex === index}
+          >
+            <span className="text-sm md:text-base font-bold text-slate-900">{faq.q}</span>
+            <motion.div animate={{ rotate: openIndex === index ? 180 : 0 }} transition={{ duration: 0.25 }}>
+              <ChevronDown className="w-5 h-5 text-slate-400" />
+            </motion.div>
+          </button>
+
+          <AnimatePresence initial={false}>
+            {openIndex === index && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.25 }}
+                className="mt-3 text-xs md:text-sm text-slate-600 overflow-hidden"
+              >
+                {faq.a}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -57,7 +111,7 @@ export default function ContactPage() {
   ];
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen overflow-x-hidden">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-primary-900 via-primary-800 to-slate-900 text-white py-12 md:py-16">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
@@ -292,21 +346,7 @@ export default function ContactPage() {
             <p className="text-sm md:text-base text-slate-600">Find quick answers to common questions</p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 max-w-5xl mx-auto">
-            {[
-              { q: "How do I track my shipment?", a: "Use our online tracking system with your tracking number for real-time updates." },
-              { q: "What are your shipping rates?", a: "Contact us for a custom quote based on your specific requirements." },
-              { q: "Do you offer insurance?", a: "Yes, we provide comprehensive cargo insurance for all shipments." },
-              { q: "What documents do I need?", a: "Required documents vary by service. Our team will guide you through the process." },
-              { q: "How long does customs clearance take?", a: "Typically 1-3 business days, depending on cargo type and compliance." },
-              { q: "Do you handle dangerous goods?", a: "Yes, we're certified to handle DG cargo following IATA and IMDG regulations." },
-            ].map((faq, index) => (
-              <motion.div key={index} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="bg-white rounded-xl p-5 hover:shadow-lg transition-all">
-                <h3 className="text-sm md:text-base font-bold text-slate-900 mb-2">{faq.q}</h3>
-                <p className="text-xs md:text-sm text-slate-600">{faq.a}</p>
-              </motion.div>
-            ))}
-          </div>
+          <FAQGrid />
         </div>
       </section>
 
