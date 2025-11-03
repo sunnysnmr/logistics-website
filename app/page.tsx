@@ -173,14 +173,6 @@ export default function Home() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Link href="/tracking" className="inline-flex items-center justify-center px-5 md:px-6 py-2.5 md:py-3 rounded-xl font-bold text-white text-sm md:text-base border-2 border-white hover:bg-white hover:text-primary-700 transition-all duration-300">
-                    Track Shipment
-                  </Link>
-                </motion.div>
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
                   <Link href="/services" className="inline-flex items-center justify-center px-5 md:px-6 py-2.5 md:py-3 rounded-xl font-bold text-slate-900 text-sm md:text-base bg-white hover:bg-slate-100 transition-all duration-300 shadow-lg hover:shadow-xl">
                     Explore Services
                   </Link>
@@ -648,11 +640,6 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 max-w-7xl mx-auto">
             {[
               {
-                title: "Real-Time Tracking",
-                desc: "Monitor your shipments 24/7 with our advanced tracking system. Get instant updates and complete visibility throughout the entire delivery journey.",
-                image: "/Carousel_img2.jpg",
-              },
-              {
                 title: "Expert Team",
                 desc: "Dedicated logistics professionals with decades of combined experience. Our specialists ensure your cargo receives the attention it deserves.",
                 image: "/Ocean_Freight_img2.jpg",
@@ -880,10 +867,6 @@ export default function Home() {
                 {
                   question: "What shipping methods do you offer?",
                   answer: "We offer comprehensive air freight, sea freight (FCL/LCL), and road transportation services. Our multimodal solutions can combine different methods to optimize cost and delivery time based on your specific requirements.",
-                },
-                {
-                  question: "How can I track my shipment?",
-                  answer: "You can track your shipment 24/7 using our online tracking system. Simply enter your tracking number on our tracking page, and you'll get real-time updates on your cargo's location and status. You'll also receive automated notifications at key milestones.",
                 },
                 {
                   question: "Do you handle customs clearance?",

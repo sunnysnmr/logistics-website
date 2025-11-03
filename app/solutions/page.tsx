@@ -227,12 +227,6 @@ export default function SolutionsPage() {
                 Schedule a Consultation
                 <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link
-                href="/tracking"
-                className="inline-flex items-center gap-2 px-5 md:px-6 py-2.5 md:py-3 bg-white/10 hover:bg-white/20 rounded-lg font-semibold transition-all text-sm md:text-base backdrop-blur-sm border border-white/20"
-              >
-                Track Your Shipment
-              </Link>
             </div>
           </motion.div>
         </div>

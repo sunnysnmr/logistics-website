@@ -86,7 +86,6 @@ export default function Footer() {
                 { label: "Home", href: "/" },
                 { label: "About Us", href: "/about" },
                 { label: "Our Services", href: "/services" },
-                { label: "Track Shipment", href: "/tracking" },
                 { label: "Get a Quote", href: "/quote" },
                 { label: "Contact Us", href: "/contact" },
               ].map((link) => (
