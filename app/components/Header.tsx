@@ -3,6 +3,49 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+
+function loadGoogleTranslate() {
+  if (typeof window === "undefined") return;
+  if (document.getElementById("google-translate-script")) return;
+  const script = document.createElement("script");
+  script.id = "google-translate-script";
+  script.type = "text/javascript";
+  script.async = true;
+  script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+  document.body.appendChild(script);
+  (window as any).googleTranslateElementInit = function () {
+    new (window as any).google.translate.TranslateElement({
+      pageLanguage: "en",
+      includedLanguages: "en,ms",
+      autoDisplay: false,
+      layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE,
+    }, "google_translate_element");
+  };
+}
+
+function triggerGoogleTranslate(lang: "en" | "ms") {
+  if (typeof window === "undefined") return;
+  // Try to trigger after Google Translate loads
+  const trySwitch = () => {
+    const select = document.querySelector(".goog-te-combo") as HTMLSelectElement;
+    if (select) {
+      select.value = lang;
+      select.dispatchEvent(new Event("change"));
+      return true;
+    }
+    return false;
+  };
+  // If not ready, retry a few times
+  if (!trySwitch()) {
+    let attempts = 0;
+    const interval = setInterval(() => {
+      if (trySwitch() || ++attempts > 10) {
+        clearInterval(interval);
+      }
+    }, 200);
+  }
+}
+
 import { ChevronDown, ChevronRight, Menu, X, Phone, Mail, MapPin } from "lucide-react";
 
 export default function Header() {
@@ -12,6 +55,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
+    loadGoogleTranslate();
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
@@ -144,15 +188,27 @@ export default function Header() {
             {/* Right Side Actions */}
             <div className="flex items-center gap-1.5 md:gap-2">
               {/* Language Selector - Hidden on small screens */}
-              <div className="hidden md:flex items-center gap-0.5 border border-slate-200 rounded-lg px-1.5 py-1">
-                <button className="text-[10px] xl:text-xs font-medium text-primary-600 hover:text-primary-700 px-1.5 py-0.5 rounded hover:bg-primary-50 transition-colors">
+              {/* <div className="hidden md:flex items-center gap-0.5 border border-slate-200 rounded-lg px-1.5 py-1">
+                <button className="text-[10px] xl:text-xs font-medium text-primary-600 hover:text-primary-700 px-1.5 py-0.5 rounded hover:bg-primary-50 transition-colors" onClick={() => triggerGoogleTranslate("en")}>
                   EN
                 </button>
                 <span className="text-slate-300 text-xs">|</span>
-                <button className="text-[10px] xl:text-xs font-medium text-slate-600 hover:text-primary-600 px-1.5 py-0.5 rounded hover:bg-slate-50 transition-colors">
+                <button className="text-[10px] xl:text-xs font-medium text-slate-600 hover:text-primary-600 px-1.5 py-0.5 rounded hover:bg-slate-50 transition-colors" onClick={() => triggerGoogleTranslate("ms")}>
                   MS
                 </button>
-              </div>
+              </div> */}
+                {/* Google Translate element container (visible for widget) */}
+                <div id="google_translate_element" className="flex items-center"></div>
+
+                {/* Small global styles to force Google Translate widget to lay out horizontally
+                    We keep this minimal and scoped to the widget ID so no other styles change. */}
+                <style jsx global>{`
+                  #google_translate_element { display: flex !important; align-items: center !important; gap: 0.4rem; }
+                  #google_translate_element .goog-te-gadget-simple, 
+                  #google_translate_element .goog-te-gadget { display: flex !important; align-items: center !important; gap: 0.35rem; }
+                  #google_translate_element img { height: 18px !important; width: auto !important; display: inline-block !important; }
+                  #google_translate_element .goog-te-combo { margin-left: 0.15rem !important; }
+                `}</style>
 
               {/* Get Quote Button */}
               <Link
