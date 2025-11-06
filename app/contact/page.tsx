@@ -2,61 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Phone, MapPin, Clock, Send, ArrowRight, Facebook, Linkedin, Instagram, ChevronDown } from "lucide-react";
-
-const faqs = [
-  { q: "How do I track my shipment?", a: "Use our online tracking system with your tracking number for real-time updates." },
-  { q: "What are your shipping rates?", a: "Contact us for a custom quote based on your specific requirements." },
-  { q: "Do you offer insurance?", a: "Yes, we provide comprehensive cargo insurance for all shipments." },
-  { q: "What documents do I need?", a: "Required documents vary by service. Our team will guide you through the process." },
-  { q: "How long does customs clearance take?", a: "Typically 1-3 business days, depending on cargo type and compliance." },
-  { q: "Do you handle dangerous goods?", a: "Yes, we're certified to handle DG cargo following IATA and IMDG regulations." },
-];
-
-function FAQGrid() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const toggle = (i: number) => setOpenIndex(openIndex === i ? null : i);
-
-  return (
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 max-w-5xl mx-auto">
-      {faqs.map((faq, index) => (
-        <motion.div
-          key={index}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: index * 0.06 }}
-          className="bg-white rounded-xl p-5 hover:shadow-lg transition-all overflow-hidden"
-        >
-          <button
-            onClick={() => toggle(index)}
-            className="w-full flex items-center justify-between text-left"
-            aria-expanded={openIndex === index}
-          >
-            <span className="text-sm md:text-base font-bold text-slate-900">{faq.q}</span>
-            <motion.div animate={{ rotate: openIndex === index ? 180 : 0 }} transition={{ duration: 0.25 }}>
-              <ChevronDown className="w-5 h-5 text-slate-400" />
-            </motion.div>
-          </button>
-
-          <AnimatePresence initial={false}>
-            {openIndex === index && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.25 }}
-                className="mt-3 text-xs md:text-sm text-slate-600 overflow-hidden"
-              >
-                {faq.a}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-      ))}
-    </div>
-  );
-}
+import { Mail, Phone, PhoneCall, MapPin, Clock, Send, ArrowRight, CheckCircle2, Building2, Globe2 } from "lucide-react";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -68,35 +14,90 @@ export default function ContactPage() {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [status, setStatus] = useState<{
+    type: 'idle' | 'loading' | 'success' | 'error';
+    message: string;
+  }>({ type: 'idle', message: '' });
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    setStatus({ type: 'loading', message: '' });
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send message');
+      }
+
+      setStatus({ 
+        type: 'success', 
+        message: 'Thank you! Your message has been sent successfully. We\'ll get back to you within 24 hours.' 
+      });
+
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        company: "",
+        service: "",
+        message: "",
+      });
+
+      // Clear success message after 5 seconds
+      setTimeout(() => {
+        setStatus({ type: 'idle', message: '' });
+      }, 5000);
+
+    } catch (error) {
+      setStatus({ 
+        type: 'error', 
+        message: error instanceof Error ? error.message : 'Failed to send message. Please try again.' 
+      });
+    }
   };
 
   const contactInfo = [
     {
-      icon: <MapPin className="w-5 h-5" />,
+      icon: <MapPin className="w-6 h-6" />,
       title: "Visit Us",
       details: ["123 Jalan Logistics", "Petaling Jaya, Selangor 46000", "Malaysia"],
-      color: "from-primary-600 to-primary-700"
+      color: "from-red-600 to-red-700",
+      bgColor: "bg-red-50",
+      borderColor: "border-red-100"
     },
     {
-      icon: <Phone className="w-5 h-5" />,
+      icon: <PhoneCall className="w-6 h-6 text-white" />,
       title: "Call Us",
       details: ["+60 3-1234 5678", "+60 12-345 6789", "Toll-Free: 1-800-88-1234"],
-      color: "from-red-600 to-red-700"
+      color: "from-blue-600 to-blue-700",
+      bgColor: "bg-primary-50",
+      borderColor: "border-primary-100"
     },
     {
-      icon: <Mail className="w-5 h-5" />,
+      icon: <Mail className="w-6 h-6" />,
       title: "Email Us",
       details: ["info@onglobeconsole.com", "support@onglobeconsole.com", "sales@onglobeconsole.com"],
-      color: "from-blue-600 to-blue-700"
+      color: "from-blue-600 to-blue-700",
+      bgColor: "bg-blue-50",
+      borderColor: "border-blue-100"
     },
     {
-      icon: <Clock className="w-5 h-5" />,
+      icon: <Clock className="w-6 h-6" />,
       title: "Business Hours",
-      details: ["Monday - Friday: 9:00 AM - 6:00 PM", "Saturday: 9:00 AM - 1:00 PM", "Sunday: Closed"],
-      color: "from-emerald-600 to-emerald-700"
+      details: ["Mon - Fri: 9:00 AM - 6:00 PM", "Saturday: 9:00 AM - 1:00 PM", "Sunday: Closed"],
+      color: "from-emerald-600 to-emerald-700",
+      bgColor: "bg-emerald-50",
+      borderColor: "border-emerald-100"
     },
   ];
 
@@ -110,31 +111,85 @@ export default function ContactPage() {
     "General Inquiry"
   ];
 
+  const whyContactUs = [
+    { icon: <CheckCircle2 className="w-5 h-5" />, text: "24/7 Customer Support" },
+    { icon: <CheckCircle2 className="w-5 h-5" />, text: "Quick Response Time" },
+    { icon: <CheckCircle2 className="w-5 h-5" />, text: "Expert Consultation" },
+    { icon: <CheckCircle2 className="w-5 h-5" />, text: "Custom Solutions" },
+  ];
+
   return (
-    <main className="min-h-screen overflow-x-hidden">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary-900 via-primary-800 to-slate-900 text-white py-12 md:py-16">
+    <main className="min-h-screen bg-white">
+      {/* Hero Section - Matching Home/About */}
+      <section className="relative bg-gradient-to-br from-primary-900 via-primary-800 to-slate-900 text-white py-16 md:py-20 lg:py-24">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
+        
+        {/* Animated Background Dots */}
+        <motion.div
+          className="absolute top-20 left-10 w-20 h-20 bg-red-500/10 rounded-full blur-xl"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+          transition={{ duration: 4, repeat: Infinity }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-10 w-16 h-16 bg-blue-500/10 rounded-full blur-xl"
+          animate={{ scale: [1.2, 1, 1.2], opacity: [0.4, 0.7, 0.4] }}
+          transition={{ duration: 3, repeat: Infinity }}
+        />
+
         <div className="site-container mx-auto px-4 relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 20 }} 
             animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.8 }}
             className="max-w-3xl mx-auto text-center"
           >
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4 leading-tight">
-              Get in Touch
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6"
+            >
+              <Mail className="w-4 h-4 text-red-400" />
+              <span className="text-sm font-semibold text-white">We're Here to Help</span>
+            </motion.div>
+
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 leading-tight">
+              Get in Touch with{" "}
+              <motion.span
+                animate={{ backgroundPosition: ['0% 0%', '100% 100%'] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                className="bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent bg-[length:200%_200%]"
+              >
+                Our Team
+              </motion.span>
             </h1>
-            <p className="text-sm md:text-base text-white/90 leading-relaxed">
+            <p className="text-base md:text-lg text-white/90 leading-relaxed max-w-2xl mx-auto">
               Have questions about our logistics services? Our team is ready to help you find the perfect solution for your business needs.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Contact Info Cards */}
-      <section className="py-10 md:py-12 bg-slate-50">
-        <div className="site-container mx-auto px-4">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+      {/* Contact Info Cards - Enhanced Design */}
+      <section className="relative py-12 md:py-16 lg:py-20 bg-gradient-to-br from-slate-50 via-white to-slate-50">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e120_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e120_1px,transparent_1px)] bg-[size:40px_40px] opacity-40" />
+        
+        <div className="site-container mx-auto px-4 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-10 md:mb-12"
+          >
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 mb-4">
+              Contact Information
+            </h2>
+            <p className="text-slate-600 max-w-2xl mx-auto">
+              Reach out to us through any of these channels. We're always ready to assist you.
+            </p>
+          </motion.div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 mb-12">
             {contactInfo.map((info, index) => (
               <motion.div 
                 key={index} 
@@ -142,17 +197,18 @@ export default function ContactPage() {
                 whileInView={{ opacity: 1, y: 0 }} 
                 viewport={{ once: true }} 
                 transition={{ delay: index * 0.1 }} 
-                className="bg-white rounded-lg p-4 md:p-5 hover:shadow-lg transition-all group"
+                whileHover={{ y: -5 }}
+                className={`bg-white rounded-2xl p-6 border ${info.borderColor} hover:shadow-xl transition-all duration-300 group`}
               >
-                <div className={`w-10 h-10 bg-gradient-to-br ${info.color} rounded-lg flex items-center justify-center text-white mb-3 group-hover:scale-110 transition-transform`}>
+                <div className={`w-14 h-14 bg-gradient-to-br ${info.color} rounded-xl flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform shadow-lg`}>
                   {info.icon}
                 </div>
-                <h3 className="text-sm md:text-base font-bold text-slate-900 mb-2">
+                <h3 className="text-base md:text-lg font-bold text-slate-900 mb-3">
                   {info.title}
                 </h3>
-                <div className="space-y-0.5">
+                <div className="space-y-1.5">
                   {info.details.map((detail, idx) => (
-                    <p key={idx} className="text-xs text-slate-600">{detail}</p>
+                    <p key={idx} className="text-sm text-slate-600 leading-relaxed">{detail}</p>
                   ))}
                 </div>
               </motion.div>
@@ -161,52 +217,97 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Contact Form & Info Section */}
-      <section className="py-10 md:py-12 bg-white">
+      {/* Contact Form & Map Section */}
+      <section className="relative py-12 md:py-16 lg:py-20 bg-white">
         <div className="site-container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-6 md:gap-8">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-start">
+            
             {/* Contact Form */}
             <motion.div 
-              initial={{ opacity: 0, x: -20 }} 
+              initial={{ opacity: 0, x: -30 }} 
               whileInView={{ opacity: 1, x: 0 }} 
               viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="bg-gradient-to-br from-slate-50 to-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-lg"
             >
-              <div className="mb-5 md:mb-6">
-                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-900 mb-2 md:mb-3">
+              <div className="mb-6">
+                <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3">
                   Send Us a Message
                 </h2>
-                <p className="text-xs md:text-sm text-slate-600">
+                <p className="text-sm md:text-base text-slate-600">
                   Fill out the form below and we'll get back to you within 24 hours.
                 </p>
               </div>
 
+              {/* Why Contact Us */}
+              <div className="grid grid-cols-2 gap-3 mb-6">
+                {whyContactUs.map((item, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.1 }}
+                    className="flex items-center gap-2 text-xs md:text-sm text-slate-700"
+                  >
+                    <span className="text-green-600">{item.icon}</span>
+                    <span>{item.text}</span>
+                  </motion.div>
+                ))}
+              </div>
+
               <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Status Messages */}
+                <AnimatePresence>
+                  {status.type !== 'idle' && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className={`p-4 rounded-xl ${
+                        status.type === 'success' 
+                          ? 'bg-green-50 border border-green-200 text-green-800' 
+                          : status.type === 'error'
+                          ? 'bg-red-50 border border-red-200 text-red-800'
+                          : 'bg-blue-50 border border-blue-200 text-blue-800'
+                      }`}
+                    >
+                      <p className="text-sm font-medium flex items-center gap-2">
+                        {status.type === 'success' && <CheckCircle2 className="w-4 h-4" />}
+                        {status.type === 'loading' ? 'Sending your message...' : status.message}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="name" className="block text-xs font-semibold text-slate-700 mb-1.5">
+                    <label htmlFor="name" className="block text-sm font-semibold text-slate-700 mb-2">
                       Full Name *
                     </label>
                     <input 
                       type="text" 
                       id="name" 
                       required 
+                      disabled={status.type === 'loading'}
                       value={formData.name} 
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })} 
-                      className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all" 
+                      className="w-full px-4 py-3 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed bg-white" 
                       placeholder="John Doe" 
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-xs font-semibold text-slate-700 mb-1.5">
+                    <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-2">
                       Email Address *
                     </label>
                     <input 
                       type="email" 
                       id="email" 
                       required 
+                      disabled={status.type === 'loading'}
                       value={formData.email} 
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })} 
-                      className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all" 
+                      className="w-full px-4 py-3 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed bg-white" 
                       placeholder="john@company.com" 
                     />
                   </div>
@@ -214,42 +315,45 @@ export default function ContactPage() {
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="phone" className="block text-xs font-semibold text-slate-700 mb-1.5">
+                    <label htmlFor="phone" className="block text-sm font-semibold text-slate-700 mb-2">
                       Phone Number
                     </label>
                     <input 
                       type="tel" 
                       id="phone" 
+                      disabled={status.type === 'loading'}
                       value={formData.phone} 
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })} 
-                      className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all" 
+                      className="w-full px-4 py-3 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed bg-white" 
                       placeholder="+60 12-345 6789" 
                     />
                   </div>
                   <div>
-                    <label htmlFor="company" className="block text-xs font-semibold text-slate-700 mb-1.5">
+                    <label htmlFor="company" className="block text-sm font-semibold text-slate-700 mb-2">
                       Company Name
                     </label>
                     <input 
                       type="text" 
                       id="company" 
+                      disabled={status.type === 'loading'}
                       value={formData.company} 
                       onChange={(e) => setFormData({ ...formData, company: e.target.value })} 
-                      className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all" 
+                      className="w-full px-4 py-3 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed bg-white" 
                       placeholder="Company Inc." 
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="service" className="block text-xs font-semibold text-slate-700 mb-1.5">
+                  <label htmlFor="service" className="block text-sm font-semibold text-slate-700 mb-2">
                     Service Interest
                   </label>
                   <select 
                     id="service" 
                     value={formData.service} 
+                    disabled={status.type === 'loading'}
                     onChange={(e) => setFormData({ ...formData, service: e.target.value })} 
-                    className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all bg-white"
+                    className="w-full px-4 py-3 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all bg-white disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <option value="">Select a service...</option>
                     {services.map((service, index) => (
@@ -259,107 +363,138 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-xs font-semibold text-slate-700 mb-1.5">
+                  <label htmlFor="message" className="block text-sm font-semibold text-slate-700 mb-2">
                     Message *
                   </label>
                   <textarea 
                     id="message" 
                     required 
-                    rows={4} 
+                    rows={5} 
+                    disabled={status.type === 'loading'}
                     value={formData.message} 
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })} 
-                    className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all resize-none" 
+                    className="w-full px-4 py-3 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all resize-none disabled:opacity-50 disabled:cursor-not-allowed bg-white" 
                     placeholder="Tell us about your logistics needs..." 
                   />
                 </div>
 
-                <button 
+                <motion.button 
                   type="submit" 
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 md:px-6 py-2.5 md:py-3 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white rounded-lg font-semibold transition-all text-sm shadow-lg hover:shadow-xl transform hover:scale-105"
+                  disabled={status.type === 'loading'}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-bold transition-all text-sm shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Send Message
-                  <Send className="w-4 h-4" />
-                </button>
+                  {status.type === 'loading' ? (
+                    <>
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      >
+                        <ArrowRight className="w-5 h-5" />
+                      </motion.div>
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      Send Message
+                      <Send className="w-5 h-5" />
+                    </>
+                  )}
+                </motion.button>
               </form>
             </motion.div>
 
-            {/* Contact Info Sidebar */}
+            {/* Map & Additional Info */}
             <motion.div 
-              initial={{ opacity: 0, x: 20 }} 
+              initial={{ opacity: 0, x: 30 }} 
               whileInView={{ opacity: 1, x: 0 }} 
               viewport={{ once: true }} 
-              className="space-y-5"
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="space-y-6"
             >
-              {/* Map Placeholder */}
-              <div className="relative h-[250px] md:h-[280px] bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="w-10 h-10 text-primary-600 mx-auto mb-2" />
-                    <p className="text-xs text-slate-600">Map placeholder</p>
-                    <p className="text-[10px] text-slate-500 mt-1">Integrate Google Maps</p>
-                  </div>
-                </div>
+              {/* Google Map */}
+              <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl border border-slate-200">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127468.21894819784!2d101.61301945820314!3d3.1385037999999987!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc4838baeb29fd%3A0x6ef0db0b3ed8b330!2sPetaling%20Jaya%2C%20Selangor%2C%20Malaysia!5e0!3m2!1sen!2s!4v1234567890123!5m2!1sen!2s"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="OnGlobe Console Location"
+                  className="w-full h-full"
+                />
               </div>
 
               {/* Quick Contact Card */}
-              <div className="bg-gradient-to-br from-primary-900 to-slate-900 rounded-lg p-5 md:p-6 text-white">
-                <h3 className="text-base md:text-lg font-bold mb-2">Need Immediate Assistance?</h3>
-                <p className="text-xs text-white/90 mb-4">
-                  Our support team is available 24/7 for urgent inquiries and shipment tracking.
-                </p>
-                <div className="space-y-2.5">
-                  <a href="tel:+60312345678" className="flex items-center gap-2.5 hover:text-red-400 transition-colors">
-                    <Phone className="w-4 h-4" />
-                    <span className="text-sm">+60 3-1234 5678</span>
-                  </a>
-                  <a href="mailto:support@onglobeconsole.com" className="flex items-center gap-2.5 hover:text-red-400 transition-colors">
-                    <Mail className="w-4 h-4" />
-                    <span className="text-sm">support@onglobeconsole.com</span>
-                  </a>
-                </div>
+              <motion.div 
+                whileHover={{ scale: 1.02 }}
+                className="bg-gradient-to-br from-primary-900 via-primary-800 to-slate-900 rounded-2xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden"
+              >
+                {/* Background Pattern */}
+                <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
+                
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center">
+                      <Globe2 className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold">Need Immediate Help?</h3>
+                  </div>
+                  
+                  <p className="text-white/90 mb-6 leading-relaxed">
+                    Our support team is available 24/7 for urgent inquiries and shipment tracking assistance.
+                  </p>
+                  
+                  <div className="space-y-4">
+                    <motion.a 
+                      href="tel:+60312345678"
+                      whileHover={{ x: 5 }}
+                      className="flex items-center gap-3 text-white hover:text-red-300 transition-colors group"
+                    >
+                      <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                        <PhoneCall className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-xs text-white/70">Call Now</div>
+                        <div className="font-bold">+60 3-1234 5678</div>
+                      </div>
+                    </motion.a>
 
-                {/* Social Links */}
-                <div className="mt-5 pt-5 border-t border-white/20">
-                  <p className="text-xs text-white/80 mb-2.5">Follow us on social media</p>
-                  <div className="flex gap-2.5">
-                    <a href="#" className="w-9 h-9 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-all hover:scale-110">
-                      <Facebook className="w-4 h-4" />
-                    </a>
-                    <a href="#" className="w-9 h-9 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-all hover:scale-110">
-                      <Linkedin className="w-4 h-4" />
-                    </a>
-                    <a href="#" className="w-9 h-9 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-all hover:scale-110">
-                      <Instagram className="w-4 h-4" />
-                    </a>
+                    <motion.a 
+                      href="mailto:info@onglobeconsole.com"
+                      whileHover={{ x: 5 }}
+                      className="flex items-center gap-3 text-white hover:text-red-300 transition-colors group"
+                    >
+                      <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                        <Mail className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <div className="text-xs text-white/70">Email Us</div>
+                        <div className="font-bold">info@onglobeconsole.com</div>
+                      </div>
+                    </motion.a>
+
+                    <motion.div 
+                      whileHover={{ x: 5 }}
+                      className="flex items-center gap-3 text-white group"
+                    >
+                      <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                        <MapPin className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <div className="text-xs text-white/70">Visit Us</div>
+                        <div className="font-bold">Petaling Jaya, Selangor</div>
+                      </div>
+                    </motion.div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
+
           </div>
-        </div>
-      </section>
-
-      <section className="py-12 md:py-16 bg-slate-50">
-        <div className="site-container mx-auto px-4">
-          <div className="text-center mb-8 md:mb-10">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 mb-3 md:mb-4">Frequently Asked Questions</h2>
-            <p className="text-sm md:text-base text-slate-600">Find quick answers to common questions</p>
-          </div>
-
-          <FAQGrid />
-        </div>
-      </section>
-
-      <section className="py-12 md:py-16 bg-gradient-to-br from-primary-900 to-slate-900 text-white">
-        <div className="site-container mx-auto px-4 text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-3xl mx-auto">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6">Ready to Get Started?</h2>
-            <p className="text-sm md:text-base text-white/90 mb-6 md:mb-8 leading-relaxed">Request a quote today and discover how we can optimize your logistics operations.</p>
-            <a href="/quote" className="inline-flex items-center gap-2 px-6 md:px-8 py-3 md:py-3.5 bg-red-600 hover:bg-red-700 rounded-lg font-semibold transition-all text-sm md:text-base shadow-lg hover:shadow-xl transform hover:scale-105">
-              Get a Free Quote
-              <ArrowRight className="w-4 h-4" />
-            </a>
-          </motion.div>
         </div>
       </section>
     </main>
