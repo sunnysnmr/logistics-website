@@ -46,7 +46,7 @@ function triggerGoogleTranslate(lang: "en" | "ms") {
   }
 }
 
-import { ChevronDown, ChevronRight, Menu, X, Phone, Mail, MapPin } from "lucide-react";
+import { ChevronDown, ChevronRight, Menu, X, Phone, Mail, MapPin, ExternalLink } from "lucide-react";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -183,6 +183,28 @@ export default function Header() {
               <Link href="/contact" className="nav-link px-2.5 xl:px-3 py-2 text-xs xl:text-sm font-medium whitespace-nowrap">
                 Contact
               </Link>
+
+              {/* Country Links - Desktop */}
+              <div className="flex items-center gap-1 border-l border-slate-200 pl-2 ml-1">
+                <a 
+                  href="https://oneglobeindia.com/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="nav-link px-2 xl:px-2.5 py-2 text-xs xl:text-sm font-medium flex items-center gap-1 whitespace-nowrap hover:text-green-600 transition-colors"
+                >
+                  India
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+                <a 
+                  href="https://www.oneglobeconsole.com/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="nav-link px-2 xl:px-2.5 py-2 text-xs xl:text-sm font-medium flex items-center gap-1 whitespace-nowrap hover:text-blue-600 transition-colors"
+                >
+                  Singapore
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
             </div>
 
             {/* Right Side Actions */}
@@ -368,6 +390,33 @@ export default function Header() {
                 >
                   Contact
                 </Link>
+
+                {/* Country Links - Mobile */}
+                <div className="pt-4 border-t border-slate-200 mt-4">
+                  <div className="text-sm font-medium text-slate-500 mb-3">Other Regions</div>
+                  <div className="flex flex-col gap-3">
+                    <a 
+                      href="https://oneglobeindia.com/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 text-base font-medium text-green-600 hover:text-green-700 transition-colors"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      India
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                    <a 
+                      href="https://www.oneglobeconsole.com/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 text-base font-medium text-blue-600 hover:text-blue-700 transition-colors"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Singapore
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  </div>
+                </div>
 
                 {/* Mobile Quote Button */}
                 <Link
