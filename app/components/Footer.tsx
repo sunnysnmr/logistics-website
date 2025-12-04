@@ -106,7 +106,7 @@ export default function Footer() {
                   <Phone className="w-5 h-5 text-red-500 mt-1" />
                   <div>
                     <div className="text-xs text-white/60">Phone</div>
-                    <div className="font-medium text-sm">+60 3-1234 5678</div>
+                    <div className="font-medium text-sm">+60 7 2831000</div>
                   </div>
                 </a>
               </li>
@@ -116,7 +116,7 @@ export default function Footer() {
                   <Mail className="w-5 h-5 text-red-500 mt-1" />
                   <div>
                     <div className="text-xs text-white/60">Email</div>
-                    <div className="font-medium text-sm">support@oneglobe.my</div>
+                    <div className="font-medium text-sm">info@oneglobemy.com</div>
                   </div>
                 </a>
               </li>
@@ -127,9 +127,10 @@ export default function Footer() {
                   <div>
                     <div className="text-xs text-white/60">Address</div>
                     <div className="font-medium leading-relaxed text-sm">
-                      OneGlobe Console Malaysia HQ<br />
-                      189, Jalan Ampang<br />
-                      Kuala Lumpur, Malaysia
+                     OneGlobe Consolidators (M) Sdn. Bhd.<br />
+                      No 2 Jalan Kuning, Taman Pelangi<br />
+                      Level 16 Menara Pelangi Johor 80400 
+                      
                     </div>
                   </div>
                 </div>
