@@ -49,17 +49,17 @@ export default function Header() {
             <div className="flex items-center gap-4">
               <a href="tel:+60312345678" className="flex items-center gap-1.5 hover:text-red-400 transition-colors">
                 <Phone className="w-3.5 h-3.5" />
-                <span>+60 3-1234 5678</span>
+                <span>+60 7 2831000</span>
               </a>
-              <a href="mailto:support@onglobe.my" className="flex items-center gap-1.5 hover:text-red-400 transition-colors">
+              <a href="mailto:info@oneglobemy.com" className="flex items-center gap-1.5 hover:text-red-400 transition-colors">
                 <Mail className="w-3.5 h-3.5" />
-                <span>support@onglobe.my</span>
+                <span>info@oneglobemy.com</span>
               </a>
             </div>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5">
                 <MapPin className="w-3.5 h-3.5" />
-                <span>Kuala Lumpur, Malaysia</span>
+                <span>Menara Pelangi, Johor 80400</span>
               </div>
             </div>
           </div>

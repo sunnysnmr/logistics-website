@@ -67,18 +67,23 @@ export default function ContactPage() {
   };
 
   const contactInfo = [
-    {
-      icon: <MapPin className="w-6 h-6" />,
-      title: "Visit Us",
-      details: ["123 Jalan Logistics", "Petaling Jaya, Selangor 46000", "Malaysia"],
-      color: "from-red-600 to-red-700",
-      bgColor: "bg-red-50",
-      borderColor: "border-red-100"
-    },
+   {
+  icon: <MapPin className="w-6 h-6" />,
+  title: "Visit Us",
+  details: [
+    "OneGlobe Consolidators (M) Sdn. Bhd.",
+    "No 2 Jalan Kuning, Taman Pelangi",
+    "Level 16 Menara Pelangi Johor 80400"
+  ],
+  color: "from-red-600 to-red-700",
+  bgColor: "bg-red-50",
+  borderColor: "border-red-100"
+},
+
     {
       icon: <PhoneCall className="w-6 h-6 text-white" />,
       title: "Call Us",
-      details: ["+60 3-1234 5678", "+60 12-345 6789", "Toll-Free: 1-800-88-1234"],
+      details: ["+60 7 2831000"],
       color: "from-blue-600 to-blue-700",
       bgColor: "bg-primary-50",
       borderColor: "border-primary-100"
@@ -86,7 +91,7 @@ export default function ContactPage() {
     {
       icon: <Mail className="w-6 h-6" />,
       title: "Email Us",
-      details: ["info@onglobeconsole.com", "support@onglobeconsole.com", "sales@onglobeconsole.com"],
+      details: [ "info@oneglobemy.com"],
       color: "from-blue-600 to-blue-700",
       bgColor: "bg-blue-50",
       borderColor: "border-blue-100"
@@ -416,7 +421,7 @@ export default function ContactPage() {
               {/* Google Map */}
               <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl border border-slate-200">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127468.21894819784!2d101.61301945820314!3d3.1385037999999987!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc4838baeb29fd%3A0x6ef0db0b3ed8b330!2sPetaling%20Jaya%2C%20Selangor%2C%20Malaysia!5e0!3m2!1sen!2s!4v1234567890123!5m2!1sen!2s"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3984.996897502774!2d103.75560087485849!3d1.4816010617095227!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da725d8f25954f%3A0x9b6ecf635f93c125!2sMenara%20Pelangi%2C%2080400%20Johor%20Bahru%2C%20Johor%2C%20Malaysia!5e0!3m2!1sen!2smy!4v1708867023451!5m2!1sen!2smy"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
@@ -450,7 +455,7 @@ export default function ContactPage() {
                   
                   <div className="space-y-4">
                     <motion.a 
-                      href="tel:+60312345678"
+                      href="tel:+6072831000"
                       whileHover={{ x: 5 }}
                       className="flex items-center gap-3 text-white hover:text-red-300 transition-colors group"
                     >
@@ -459,12 +464,12 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <div className="text-xs text-white/70">Call Now</div>
-                        <div className="font-bold">+60 3-1234 5678</div>
+                        <div className="font-bold">+60 7 2831000</div>
                       </div>
                     </motion.a>
 
                     <motion.a 
-                      href="mailto:info@onglobeconsole.com"
+                      href="mailto:info@oneglobeconsole.com"
                       whileHover={{ x: 5 }}
                       className="flex items-center gap-3 text-white hover:text-red-300 transition-colors group"
                     >
@@ -473,7 +478,7 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <div className="text-xs text-white/70">Email Us</div>
-                        <div className="font-bold">info@onglobeconsole.com</div>
+                        <div className="font-bold">info@oneglobemy.com</div>
                       </div>
                     </motion.a>
 
@@ -486,7 +491,7 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <div className="text-xs text-white/70">Visit Us</div>
-                        <div className="font-bold">Petaling Jaya, Selangor</div>
+                        <div className="font-bold">Menara Pelangi, Johor 80400</div>
                       </div>
                     </motion.div>
                   </div>
