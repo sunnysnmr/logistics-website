@@ -40,7 +40,7 @@ export default function AboutPage() {
             className="max-w-3xl mx-auto text-center"
           >
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 leading-tight">
-              About onGlobe Console
+              About oneGlobe Console
             </h1>
             <p className="text-base md:text-lg text-white/90 leading-relaxed">
               We are a leading logistics services provider dedicated to simplifying trade for Malaysian businesses. Our team combines operational expertise with modern technology to give customers control and clarity over their supply chains.

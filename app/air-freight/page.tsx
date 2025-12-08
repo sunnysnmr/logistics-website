@@ -65,7 +65,7 @@ export default function AirFreightPage() {
             </motion.div>
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 mb-4 md:mb-6">Why Choose Our Air Freight?</h2>
-              <p className="text-sm md:text-base text-slate-600 mb-6 leading-relaxed">onGlobe streamlines air freight logistics with swift delivery and meticulous handling, prioritizing reliability and customer satisfaction across Malaysia and beyond.</p>
+              <p className="text-sm md:text-base text-slate-600 mb-6 leading-relaxed">oneGlobe streamlines air freight logistics with swift delivery and meticulous handling, prioritizing reliability and customer satisfaction across Malaysia and beyond.</p>
               <div className="grid gap-3">
                 {features.map((feature, index) => (
                   <div key={index} className="flex items-center gap-3">

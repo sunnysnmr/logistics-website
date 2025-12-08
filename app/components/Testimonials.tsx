@@ -16,7 +16,7 @@ interface Testimonial {
 const testimonials: Testimonial[] = [
   {
     id: 1,
-    quote: "onGlobe Console has transformed our supply chain operations. Their real-time tracking and reliability have been game-changing for our business.",
+    quote: "oneGlobe Console has transformed our supply chain operations. Their real-time tracking and reliability have been game-changing for our business.",
     name: "Sarah Tan",
     position: "Supply Chain Director",
     company: "TechMart Malaysia",
@@ -37,7 +37,7 @@ const testimonials: Testimonial[] = [
   },
   {
     id: 4,
-    quote: "The customs clearance expertise of onGlobe Console is unmatched. They've simplified what used to be a complex process for us.",
+    quote: "The customs clearance expertise of oneGlobe Console is unmatched. They've simplified what used to be a complex process for us.",
     name: "David Wong",
     position: "CEO",
     company: "Import Solutions Asia",

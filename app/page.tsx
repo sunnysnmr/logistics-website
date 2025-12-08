@@ -345,7 +345,7 @@ export default function Home() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-sm sm:text-base text-slate-600 leading-relaxed"
               >
-                With over a decade of experience, onGlobe Console has established itself as a trusted 
+                With over a decade of experience, oneGlobe Console has established itself as a trusted 
                 partner for businesses across Malaysia and beyond. We specialize in providing 
                 comprehensive logistics solutions tailored to meet the unique needs of each client.
               </motion.p>
@@ -622,7 +622,7 @@ export default function Home() {
                 }}
                 className="bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent bg-[length:200%_200%]"
               >
-                onGlobe Console?
+                oneGlobe Console?
               </motion.span>
             </motion.h2>
             

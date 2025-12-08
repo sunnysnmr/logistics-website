@@ -10,8 +10,8 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "onGlobe Console — Logistics",
-  description: "Elegant logistics solutions — onGlobe Console",
+  title: "oneGlobe Console — Logistics",
+  description: "Elegant logistics solutions — oneGlobe Console",
 };
 
 export default function RootLayout({

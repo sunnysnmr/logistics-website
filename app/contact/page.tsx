@@ -91,7 +91,11 @@ export default function ContactPage() {
     {
       icon: <Mail className="w-6 h-6" />,
       title: "Email Us",
+<<<<<<< HEAD
       details: [ "info@oneglobemy.com"],
+=======
+      details: ["info@oneglobeconsole.com", "support@oneglobeconsole.com", "sales@oneglobeconsole.com"],
+>>>>>>> 8b1764c (fixed spellings)
       color: "from-blue-600 to-blue-700",
       bgColor: "bg-blue-50",
       borderColor: "border-blue-100"
@@ -428,7 +432,7 @@ export default function ContactPage() {
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="OnGlobe Console Location"
+                  title="OneGlobe Console Location"
                   className="w-full h-full"
                 />
               </div>
@@ -478,7 +482,11 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <div className="text-xs text-white/70">Email Us</div>
+<<<<<<< HEAD
                         <div className="font-bold">info@oneglobemy.com</div>
+=======
+                        <div className="font-bold">info@oneglobeconsole.com</div>
+>>>>>>> 8b1764c (fixed spellings)
                       </div>
                     </motion.a>
 
