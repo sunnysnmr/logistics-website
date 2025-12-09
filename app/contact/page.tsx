@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -90,6 +90,7 @@ export default function ContactPage() {
     {
       icon: <Mail className="w-6 h-6" />,
       title: "Email Us",
+
       details: ["info@oneglobemy.com"],
       color: "from-blue-600 to-blue-700",
       bgColor: "bg-blue-50",
